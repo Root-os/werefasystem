@@ -1,16 +1,25 @@
-import Sidebar from "./Sidebar";
+import React, { useState } from "react";
+import AppSidebar from "./Sidebar";
 import Header from "./Header";
 
-const Layout = ({ children }) => {
+const AppLayout = ({ children }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800">
-      <Sidebar />
-      <div className="flex-1 flex flex-col">
+    <div className="flex min-h-screen bg-gray-100">
+      <AppSidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <div
+        className={`flex flex-col flex-1 transition-all duration-300 ${
+          sidebarOpen ? "ml-64" : "ml-16"
+        }`}
+      >
         <Header />
-        <main className="p-6 flex-1 overflow-y-auto">{children}</main>
+        <main className="p-6">{children}</main>
       </div>
     </div>
   );
 };
 
-export default Layout;
+export default AppLayout;
