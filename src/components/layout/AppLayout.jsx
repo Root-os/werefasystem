@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import AppSidebar from "./Sidebar";
 import Header from "./Header";
+import { useContext } from "react";
+import ThemeContext from "./ThemeContext";
 
 const AppLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { theme } = useContext(ThemeContext);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className={`flex min-h-screen ${theme.secondary} transition-colors duration-300`}>
       <AppSidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <div
         className={`flex flex-col flex-1 transition-all duration-300 ${
-          sidebarOpen ? "ml-64" : "ml-16"
+          sidebarOpen ? "md:ml-64 ml-0" : "md:ml-16 ml-0"
         }`}
       >
-        <Header />
-        <main className="p-6">{children}</main>
+        <Header toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
+        <main className="p-4 md:p-6">{children}</main>
       </div>
     </div>
   );

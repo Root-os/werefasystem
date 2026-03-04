@@ -1,24 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AppLayout from "./components/layout/AppLayout";
+import { ThemeProvider } from "./components/layout/ThemeContext";
+import ThemeContext from "./components/layout/ThemeContext";
+import HomePage from "./pages/HomePage";
+import ProfilePage from "./pages/ProfilePage";
+import SettingsPage from "./pages/SettingsPage";
+
+const AppContent = () => {
+  const { theme, currentTheme } = useContext(ThemeContext);
+  
+  return (
+    <AppLayout>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+      </Routes>
+    </AppLayout>
+  );
+};
 
 const App = () => {
   return (
-    <AppLayout>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-          <h2 className="text-lg font-semibold mb-2">Card 1</h2>
-          <p className="text-gray-600">Some quick example content.</p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-          <h2 className="text-lg font-semibold mb-2">Card 2</h2>
-          <p className="text-gray-600">Some quick example content.</p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-          <h2 className="text-lg font-semibold mb-2">Card 3</h2>
-          <p className="text-gray-600">Some quick example content.</p>
-        </div>
-      </div>
-    </AppLayout>
+    <Router>
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
+    </Router>
   );
 };
 

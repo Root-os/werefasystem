@@ -1,38 +1,79 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext();
 
-export const useTheme = () => useContext(ThemeContext);
+const colorThemes = {
+  blue: {
+    primary: "bg-blue-500",
+    secondary: "bg-blue-100",
+    accent: "bg-blue-600",
+    text: "text-blue-900",
+    border: "border-blue-300",
+    hover: "hover:bg-blue-50"
+  },
+  green: {
+    primary: "bg-green-500",
+    secondary: "bg-green-100", 
+    accent: "bg-green-600",
+    text: "text-green-900",
+    border: "border-green-300",
+    hover: "hover:bg-green-50"
+  },
+  purple: {
+    primary: "bg-purple-500",
+    secondary: "bg-purple-100",
+    accent: "bg-purple-600", 
+    text: "text-purple-900",
+    border: "border-purple-300",
+    hover: "hover:bg-purple-50"
+  },
+  orange: {
+    primary: "bg-orange-500",
+    secondary: "bg-orange-100",
+    accent: "bg-orange-600",
+    text: "text-orange-900", 
+    border: "border-orange-300",
+    hover: "hover:bg-orange-50"
+  },
+  dark: {
+    primary: "bg-gray-800",
+    secondary: "bg-gray-950",
+    accent: "bg-gray-700",
+    text: "text-gray-100",
+    border: "border-gray-600",
+    hover: "hover:bg-gray-700"
+  }
+};
 
 export const ThemeProvider = ({ children }) => {
-  // Available themes
-  const themes = {
-    light: { sidebar: "bg-white text-black", body: "bg-gray-100 text-black" },
-    dark: { sidebar: "bg-gray-900 text-white", body: "bg-gray-800 text-white" },
-    ocean: { sidebar: "bg-blue-700 text-white", body: "bg-blue-100 text-black" },
-    forest: { sidebar: "bg-green-800 text-white", body: "bg-green-100 text-black" },
-    sunset: { sidebar: "bg-red-600 text-white", body: "bg-orange-100 text-black" },
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    return localStorage.getItem("colorTheme") || "blue";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("colorTheme", currentTheme);
+  }, [currentTheme]);
+
+  const theme = colorThemes[currentTheme];
+  const themeNames = Object.keys(colorThemes);
+  const currentIndex = themeNames.indexOf(currentTheme);
+
+  const toggleTheme = () => {
+    const nextIndex = (currentIndex + 1) % themeNames.length;
+    setCurrentTheme(themeNames[nextIndex]);
   };
 
-  const [themeName, setThemeName] = useState("light");
-
-  // Optional: Persist theme in localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem("app-theme");
-    if (saved && themes[saved]) setThemeName(saved);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("app-theme", themeName);
-  }, [themeName]);
-
-  const toggleTheme = (name) => {
-    if (themes[name]) setThemeName(name);
+  const setTheme = (themeName) => {
+    if (colorThemes[themeName]) {
+      setCurrentTheme(themeName);
+    }
   };
 
   return (
-    <ThemeContext.Provider value={{ themeName, theme: themes[themeName], toggleTheme, themes }}>
+    <ThemeContext.Provider value={{ theme, currentTheme, toggleTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );
 };
+
+export default ThemeContext;
