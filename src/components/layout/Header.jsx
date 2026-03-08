@@ -36,7 +36,7 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
         >
           <FiMenu size={20} />
         </button>
-        <h1 className={`text-xl md:text-2xl font-bold ${theme.text}`}>Dashboard</h1>
+        {/* <h1 className={`text-xl md:text-2xl font-bold ${theme.text}`}>Dashboard</h1> */}
         <div className="relative hidden md:block">
           <input
             type="text"

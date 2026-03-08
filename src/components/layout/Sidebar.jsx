@@ -1,15 +1,31 @@
 import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FiHome, FiUser, FiSettings, FiMenu } from "react-icons/fi";
+import { 
+  FiHome, 
+  FiUser, 
+  FiSettings, 
+  FiMenu, 
+  FiLayers, 
+  FiBriefcase, 
+  FiGitBranch, 
+  FiClock, 
+  FiStar 
+} from "react-icons/fi";
 import ThemeContext from "./ThemeContext";
 
 const AppSidebar = ({ isOpen, toggleSidebar }) => {
   const { currentTheme } = useContext(ThemeContext);
   const location = useLocation();
-  
+
   const menuItems = [
-    { label: "Home", icon: <FiHome />, href: "/" },
-    { label: "Profile", icon: <FiUser />, href: "/profile" },
+    { label: "Dashboard", icon: <FiHome />, href: "/" },
+    { label: "Institutions", icon: <FiLayers />, href: "/institutions" },
+    { label: "Branches", icon: <FiGitBranch />, href: "/branches" },
+    { label: "Services", icon: <FiBriefcase />, href: "/services" },
+    { label: "VIP Services", icon: <FiStar />, href: "/vip-services" },
+    { label: "Appointments", icon: <FiClock />, href: "/appointments" },
+    { label: "Urgent Appointments", icon: <FiClock />, href: "/urgent-appointments" },
+    { label: "Users", icon: <FiUser />, href: "/users" },
     { label: "Settings", icon: <FiSettings />, href: "/settings" },
   ];
 
@@ -21,10 +37,10 @@ const AppSidebar = ({ isOpen, toggleSidebar }) => {
       }`}
     >
       <div className="flex items-center justify-between p-4">
-        <span className={`font-bold text-lg ${isOpen ? "block" : "hidden"}`}>MyApp</span>
+        <span className={`font-bold text-lg ${isOpen ? "block" : "hidden"}`}>WEREFA</span>
         <button
-          className={`text-gray-300 hover:text-white p-1 rounded-md focus:outline-none ${
-            currentTheme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+          className={`p-1 rounded-md focus:outline-none ${
+            currentTheme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
           }`}
           onClick={toggleSidebar}
         >
